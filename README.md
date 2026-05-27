@@ -1,8 +1,8 @@
-# Xteink X4 wallpaper maker
+# Xteink wallpaper maker
 
 ### 👉 [View the web app](https://jooossshhhh.github.io/Xteinkx4-Wallpaper-Maker/) 🖼️
 
-Small static web app to crop and resize images for the Xteink X4 e-reader, with a device-shaped preview. **Portrait 480×800** or **landscape 800×480**. Export is **24-bit uncompressed BMP** only. Everything runs in the browser; no images are uploaded to any server.
+Small static web app to crop and resize images for Xteink e-readers, with a device-shaped preview. Supports **X4 480×800 / 800×480** and **X3 528×792 / 792×528**. Export is **24-bit uncompressed BMP** only. Everything runs in the browser; no images are uploaded to any server.
 
 ## Usage
 

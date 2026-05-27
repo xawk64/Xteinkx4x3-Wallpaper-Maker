@@ -1,6 +1,6 @@
 /**
- * Client-side wallpaper pipeline for Xteink X4. Exports 24-bit BMP only.
- * Portrait 480×800 or landscape 800×480.
+ * Client-side wallpaper pipeline for Xteink devices. Exports 24-bit BMP only.
+ * X4: 480×800 / 800×480. X3: 528×792 / 792×528.
  */
 (() => {
   /** @type {Record<string, HTMLElement | null>} */
@@ -8,6 +8,7 @@
     dropzone: document.getElementById("dropzone"),
     fileInput: document.getElementById("file-input"),
     uploadError: document.getElementById("upload-error"),
+    device: document.getElementById("device"),
     orientation: document.getElementById("orientation"),
     introDims: document.getElementById("intro-dims"),
     fitMode: document.getElementById("fit-mode"),
@@ -31,9 +32,28 @@
     duplicateActive: document.getElementById("duplicate-active"),
   };
 
+  const DEVICES = {
+    x4: {
+      slug: "x4",
+      label: "Xteink X4",
+      sizes: {
+        portrait: { w: 480, h: 800 },
+        landscape: { w: 800, h: 480 },
+      },
+    },
+    x3: {
+      slug: "x3",
+      label: "Xteink X3",
+      sizes: {
+        portrait: { w: 528, h: 792 },
+        landscape: { w: 792, h: 528 },
+      },
+    },
+  };
+
   const outCanvas = document.createElement("canvas");
-  outCanvas.width = 480;
-  outCanvas.height = 800;
+  outCanvas.width = DEVICES.x4.sizes.portrait.w;
+  outCanvas.height = DEVICES.x4.sizes.portrait.h;
   /** @type {CanvasRenderingContext2D | null} */
   let outCtx = null;
   try {
@@ -82,6 +102,31 @@
     return $.orientation?.value === "landscape";
   }
 
+  function selectedOrientation() {
+    return isLandscape() ? "landscape" : "portrait";
+  }
+
+  function selectedDevice() {
+    const value = $.device?.value;
+    return DEVICES[value] ?? DEVICES.x4;
+  }
+
+  function outputSize() {
+    return selectedDevice().sizes[selectedOrientation()];
+  }
+
+  function syncOrientationLabels() {
+    const orientation = /** @type {HTMLSelectElement | null} */ ($.orientation);
+    if (!orientation) return;
+
+    for (const option of orientation.options) {
+      const size = selectedDevice().sizes[option.value];
+      if (!size) continue;
+      const label = option.value === "landscape" ? "Landscape" : "Portrait";
+      option.textContent = `${label} — ${size.w} × ${size.h}`;
+    }
+  }
+
   function setUploadError(message) {
     const el = $.uploadError;
     if (!el) return;
@@ -95,21 +140,24 @@
   }
 
   function syncCanvasDimensions() {
+    syncOrientationLabels();
     const landscape = isLandscape();
-    const w = landscape ? 800 : 480;
-    const h = landscape ? 480 : 800;
+    const { w, h } = outputSize();
     if (outCanvas.width !== w || outCanvas.height !== h) {
       outCanvas.width = w;
       outCanvas.height = h;
     }
     $.previewBezel?.classList.toggle("device-bezel--landscape", landscape);
+    if ($.previewBezel) {
+      $.previewBezel.style.aspectRatio = `${w} / ${h}`;
+    }
     $.previewImg.width = w;
     $.previewImg.height = h;
     if ($.introDims) {
-      $.introDims.textContent = `${w}\u00d7${h}`;
+      $.introDims.textContent = `${w}×${h}`;
     }
     if ($.specPill) {
-      $.specPill.textContent = `Preview ${w} \u00d7 ${h} \u00b7 No data sent to a server`;
+      $.specPill.textContent = `${selectedDevice().label} preview ${w} × ${h} · No data sent to a server`;
     }
   }
 
@@ -610,6 +658,7 @@
     el.addEventListener("change", () => requestComposite());
   }
   $.fitMode.addEventListener("change", () => requestComposite());
+  $.device?.addEventListener("change", () => composite());
   $.orientation?.addEventListener("change", () => composite());
 
   $.clearQueue?.addEventListener("click", clearQueue);
@@ -634,9 +683,10 @@
     const w = outCanvas.width;
     const h = outCanvas.height;
     const orient = isLandscape() ? "landscape" : "portrait";
+    const device = selectedDevice();
     downloadBlob(
       bmp,
-      `${sanitizeBaseName(item.name)}-xteink-x4-${orient}-${w}x${h}.bmp`
+      `${sanitizeBaseName(item.name)}-xteink-${device.slug}-${orient}-${w}x${h}.bmp`
     );
   });
 

@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Xteink X4 wallpaper maker</title>
+    <title>Xteink wallpaper maker</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="layout">
       <aside class="panel">
-        <h1>Xteink X4 wallpapers</h1>
+        <h1>Xteink wallpapers</h1>
         <p class="sub" id="intro-blurb">
           Exports <strong id="intro-dims">480×800</strong> 24-bit BMP. Everything
           runs in your browser.
@@ -37,10 +37,18 @@
         </label>
 
         <div class="field">
+          <label for="device">Device</label>
+          <select id="device">
+            <option value="x4" selected>Xteink X4</option>
+            <option value="x3">Xteink X3</option>
+          </select>
+        </div>
+
+        <div class="field">
           <label for="orientation">Device frame</label>
           <select id="orientation">
-            <option value="portrait" selected>Portrait — 480 × 800</option>
-            <option value="landscape">Landscape — 800 × 480</option>
+            <option value="portrait" selected>Portrait</option>
+            <option value="landscape">Landscape</option>
           </select>
         </div>
 
