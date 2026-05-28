@@ -35,7 +35,7 @@
   const DEVICES = {
     x4: {
       slug: "x4",
-      label: "Xteink X4",
+      labelKey: "deviceX4",
       sizes: {
         portrait: { w: 480, h: 800 },
         landscape: { w: 800, h: 480 },
@@ -43,13 +43,144 @@
     },
     x3: {
       slug: "x3",
-      label: "Xteink X3",
+      labelKey: "deviceX3",
       sizes: {
         portrait: { w: 528, h: 792 },
         landscape: { w: 792, h: 528 },
       },
     },
   };
+
+  const RUSSIA_TIME_ZONES = new Set([
+    "Europe/Kaliningrad",
+    "Europe/Moscow",
+    "Europe/Volgograd",
+    "Europe/Kirov",
+    "Europe/Samara",
+    "Asia/Yekaterinburg",
+    "Asia/Omsk",
+    "Asia/Novosibirsk",
+    "Asia/Barnaul",
+    "Asia/Tomsk",
+    "Asia/Novokuznetsk",
+    "Asia/Krasnoyarsk",
+    "Asia/Irkutsk",
+    "Asia/Chita",
+    "Asia/Yakutsk",
+    "Asia/Khandyga",
+    "Asia/Vladivostok",
+    "Asia/Ust-Nera",
+    "Asia/Magadan",
+    "Asia/Sakhalin",
+    "Asia/Srednekolymsk",
+    "Asia/Kamchatka",
+    "Asia/Anadyr",
+  ]);
+
+  const COPY = {
+    en: {
+      documentTitle: "Xteink wallpaper maker",
+      heading: "Xteink wallpapers",
+      introPrefix: "Exports",
+      introSuffix: "24-bit BMP. Everything runs in your browser.",
+      uploadImages: "Upload images",
+      deviceX4: "Xteink X4",
+      deviceX3: "Xteink X3",
+      dropText: "Drop images here or tap to browse",
+      dropHint: "JPG, WebP, etc. - nothing is uploaded to a server",
+      chooseFiles: "Choose files",
+      device: "Device",
+      deviceFrame: "Device frame",
+      portrait: "Portrait",
+      landscape: "Landscape",
+      fit: "Fit",
+      fitCover: "Cover (fill, crop edges)",
+      fitContain: "Contain (letterbox)",
+      fitStretch: "Stretch to exact size",
+      scale: "Scale",
+      panX: "Pan X",
+      panY: "Pan Y",
+      panHint:
+        "Pan moves the picture when it does not match the frame (extra crop in Cover, margins in Contain, or after zooming). Use the sliders or drag the preview. Stretch fills the frame - no pan.",
+      eink: "Grayscale preview (E Ink look)",
+      dither: "1-bit dither (high contrast)",
+      reset: "Reset pan & scale",
+      download: "Download BMP",
+      queue: "Staging queue",
+      duplicate: "Duplicate",
+      clearAll: "Clear all",
+      devicePreviewFrame: "Device preview frame",
+      previewAlt: "Wallpaper preview at device resolution",
+      previewStatus:
+        "{{device}} preview {{width}} x {{height}} - No data sent to a server",
+      emptyStage: "Add an image to see it in the frame.",
+      noSupportedFiles: "No supported image files selected.",
+      couldNotLoadImage: "Could not load image.",
+      couldNotLoadImageWithReason: "Could not load image: {{reason}}",
+      partialLoadError:
+        "Loaded {{loaded}} file(s). {{failed}} file(s) could not be opened.",
+      removeFromQueue: "Remove {{name}} from queue",
+      removeFromQueueTitle: "Remove from queue",
+      skippedFile: "Skipped a file:",
+      canvasUnavailable: "Canvas 2D context is not available",
+      no2dContext: "No 2d context",
+      bmpRowAlignment: "BMP row alignment",
+      copySuffix: "copy",
+      fallbackFilename: "wallpaper",
+    },
+    ru: {
+      documentTitle: "Генератор обоев Xteink",
+      heading: "Обои для Xteink",
+      introPrefix: "Экспорт",
+      introSuffix: "24-битный BMP. Всё работает прямо в браузере.",
+      uploadImages: "Загрузить изображения",
+      deviceX4: "Xteink X4",
+      deviceX3: "Xteink X3",
+      dropText: "Перетащите изображения сюда или нажмите для выбора",
+      dropHint: "JPG, WebP и другие - ничего не отправляется на сервер",
+      chooseFiles: "Выбрать файлы",
+      device: "Устройство",
+      deviceFrame: "Ориентация экрана",
+      portrait: "Портретная",
+      landscape: "Альбомная",
+      fit: "Заполнение",
+      fitCover: "Заполнить (обрезать края)",
+      fitContain: "Вместить (с полями)",
+      fitStretch: "Растянуть до точного размера",
+      scale: "Масштаб",
+      panX: "Сдвиг X",
+      panY: "Сдвиг Y",
+      panHint:
+        "Сдвиг перемещает картинку, когда она не совпадает с рамкой (лишняя обрезка в режиме Заполнить, поля в режиме Вместить или после увеличения). Используйте ползунки или перетаскивайте превью. Растянуть заполняет рамку без сдвига.",
+      eink: "Чёрно-белое превью (как на E Ink)",
+      dither: "1-битный дизеринг (высокий контраст)",
+      reset: "Сбросить сдвиг и масштаб",
+      download: "Скачать BMP",
+      queue: "Очередь изображений",
+      duplicate: "Дублировать",
+      clearAll: "Очистить всё",
+      devicePreviewFrame: "Рамка предпросмотра устройства",
+      previewAlt: "Предпросмотр обоев в разрешении устройства",
+      previewStatus:
+        "Превью {{device}} {{width}} x {{height}} - ничего не отправляется на сервер",
+      emptyStage: "Добавьте изображение, чтобы увидеть его в рамке.",
+      noSupportedFiles: "Не выбраны поддерживаемые файлы изображений.",
+      couldNotLoadImage: "Не удалось загрузить изображение.",
+      couldNotLoadImageWithReason: "Не удалось загрузить изображение: {{reason}}",
+      partialLoadError:
+        "Загружено файлов: {{loaded}}. Не удалось открыть файлов: {{failed}}.",
+      removeFromQueue: "Удалить {{name}} из очереди",
+      removeFromQueueTitle: "Удалить из очереди",
+      skippedFile: "Файл пропущен:",
+      canvasUnavailable: "Контекст Canvas 2D недоступен",
+      no2dContext: "Нет 2d-контекста",
+      bmpRowAlignment: "Ошибка выравнивания строки BMP",
+      copySuffix: "копия",
+      fallbackFilename: "wallpaper",
+    },
+  };
+
+  let locale = detectLocale();
 
   const outCanvas = document.createElement("canvas");
   outCanvas.width = DEVICES.x4.sizes.portrait.w;
@@ -65,7 +196,7 @@
     outCtx = outCanvas.getContext("2d");
   }
   if (!outCtx) {
-    throw new Error("Canvas 2D context is not available");
+    throw new Error(t("canvasUnavailable"));
   }
 
   /** @type {{ id: string, name: string, img: HTMLImageElement }[]} */
@@ -98,6 +229,48 @@
   let previewDragLastX = 0;
   let previewDragLastY = 0;
 
+  function detectLocale() {
+    const languages = navigator.languages?.length
+      ? navigator.languages
+      : [navigator.language].filter(Boolean);
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const hasRussiaLocale = languages.some((language) => {
+      try {
+        const parsed = new Intl.Locale(language);
+        return parsed.region === "RU" || parsed.language === "ru";
+      } catch {
+        return /^ru(?:-|$)/i.test(language);
+      }
+    });
+
+    return hasRussiaLocale || RUSSIA_TIME_ZONES.has(timeZone) ? "ru" : "en";
+  }
+
+  function t(key, vars = {}) {
+    const template = COPY[locale][key] ?? COPY.en[key] ?? key;
+    return template.replace(/\{\{(\w+)\}\}/g, (_, name) =>
+      Object.prototype.hasOwnProperty.call(vars, name) ? String(vars[name]) : ""
+    );
+  }
+
+  function applyStaticCopy() {
+    document.documentElement.lang = locale;
+    document.title = t("documentTitle");
+
+    for (const el of document.querySelectorAll("[data-i18n]")) {
+      const key = el.getAttribute("data-i18n");
+      if (key) el.textContent = t(key);
+    }
+
+    for (const el of document.querySelectorAll("[data-i18n-attr]")) {
+      for (const part of el.getAttribute("data-i18n-attr").split(";")) {
+        const [attr, key] = part.split(":").map((value) => value.trim());
+        if (attr && key) el.setAttribute(attr, t(key));
+      }
+    }
+  }
+
   function isLandscape() {
     return $.orientation?.value === "landscape";
   }
@@ -122,7 +295,7 @@
     for (const option of orientation.options) {
       const size = selectedDevice().sizes[option.value];
       if (!size) continue;
-      const label = option.value === "landscape" ? "Landscape" : "Portrait";
+      const label = t(option.value === "landscape" ? "landscape" : "portrait");
       option.textContent = `${label} — ${size.w} × ${size.h}`;
     }
   }
@@ -157,7 +330,11 @@
       $.introDims.textContent = `${w}×${h}`;
     }
     if ($.specPill) {
-      $.specPill.textContent = `${selectedDevice().label} preview ${w} × ${h} · No data sent to a server`;
+      $.specPill.textContent = t("previewStatus", {
+        device: t(selectedDevice().labelKey),
+        width: w,
+        height: h,
+      });
     }
   }
 
@@ -240,7 +417,7 @@
       };
       img.onerror = () => {
         URL.revokeObjectURL(url);
-        reject(new Error("Could not load image"));
+        reject(new Error(t("couldNotLoadImage")));
       };
       img.src = url;
     });
@@ -282,7 +459,7 @@
     setUploadError("");
     const files = [...fileList].filter(shouldTryDecodeAsImage);
     if (!files.length) {
-      setUploadError("No supported image files selected.");
+      setUploadError(t("noSupportedFiles"));
       return;
     }
 
@@ -303,20 +480,23 @@
         const msg =
           r.reason instanceof Error ? r.reason.message : String(r.reason);
         loadErrors.push(msg);
-        console.warn("Skipped a file:", r.reason);
+        console.warn(t("skippedFile"), r.reason);
       }
     }
     if (!newItems.length) {
       setUploadError(
         loadErrors[0]
-          ? `Could not load image: ${loadErrors[0]}`
-          : "Could not load image."
+          ? t("couldNotLoadImageWithReason", { reason: loadErrors[0] })
+          : t("couldNotLoadImage")
       );
       return;
     }
     if (loadErrors.length) {
       setUploadError(
-        `Loaded ${newItems.length} file(s). ${loadErrors.length} file(s) could not be opened.`
+        t("partialLoadError", {
+          loaded: newItems.length,
+          failed: loadErrors.length,
+        })
       );
     }
 
@@ -350,8 +530,8 @@
     const item = getActiveItem();
     if (!item) return;
     const name = /\.[^/.]+$/.test(item.name)
-      ? item.name.replace(/(\.[^/.]+)$/, " (copy)$1")
-      : `${item.name} (copy)`;
+      ? item.name.replace(/(\.[^/.]+)$/, ` (${t("copySuffix")})$1`)
+      : `${item.name} (${t("copySuffix")})`;
     items.push({
       id: makeId(),
       name,
@@ -389,8 +569,11 @@
       const removeBtn = document.createElement("button");
       removeBtn.type = "button";
       removeBtn.className = "thumb-remove";
-      removeBtn.setAttribute("aria-label", `Remove ${item.name} from queue`);
-      removeBtn.title = "Remove from queue";
+      removeBtn.setAttribute(
+        "aria-label",
+        t("removeFromQueue", { name: item.name })
+      );
+      removeBtn.title = t("removeFromQueueTitle");
       removeBtn.textContent = "\u00d7";
       removeBtn.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -541,7 +724,7 @@
     const w = sourceCanvas.width;
     const h = sourceCanvas.height;
     const c = sourceCanvas.getContext("2d");
-    if (!c) throw new Error("No 2d context");
+    if (!c) throw new Error(t("no2dContext"));
     const { data: src } = c.getImageData(0, 0, w, h);
     const rowSize = Math.ceil((w * 3) / 4) * 4;
     const pixelBytes = rowSize * h;
@@ -592,7 +775,7 @@
         bytes[p++] = src[si];
       }
       p += rowSize - w * 3;
-      if (p !== rowStart + rowSize) throw new Error("BMP row alignment");
+      if (p !== rowStart + rowSize) throw new Error(t("bmpRowAlignment"));
     }
 
     return new Blob([buf], { type: "image/bmp" });
@@ -609,7 +792,7 @@
   function sanitizeBaseName(name) {
     const base = name.replace(/\.[^/.]+$/, "");
     const safe = base.replace(/[^\w\-.]+/g, "_").slice(0, 80);
-    return safe || "wallpaper";
+    return safe || t("fallbackFilename");
   }
 
   /* Dropzone is a <label>; avoid synthetic fileInput.click() here — iOS Safari often ignores it. */
@@ -767,5 +950,6 @@
     }
   });
 
+  applyStaticCopy();
   composite();
 })();
