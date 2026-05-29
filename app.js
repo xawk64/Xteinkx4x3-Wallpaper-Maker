@@ -77,9 +77,22 @@
     "Asia/Anadyr",
   ]);
 
+  const SITE_URL = "https://xawk64.github.io/Xteinkx4x3-Wallpaper-Maker/";
+
   const COPY = {
     en: {
-      documentTitle: "Xteink wallpaper maker",
+      documentTitle: "Xteink Wallpaper Maker — Free BMP Wallpapers for X4 & X3",
+      metaDescription:
+        "Free online wallpaper maker for Xteink X4 and X3 e-readers. Crop, resize, and export 24-bit BMP (480×800, 528×792). Browser-only — no uploads.",
+      metaKeywords:
+        "Xteink wallpaper, Xteink X4 wallpaper, Xteink X3 wallpaper, e-reader wallpaper, BMP wallpaper maker, 480x800 wallpaper, 528x792 wallpaper",
+      ogTitle: "Xteink Wallpaper Maker — Free BMP Wallpapers for X4 & X3",
+      ogDescription:
+        "Create custom 24-bit BMP wallpapers for Xteink X4 and X3. Device preview, crop, grayscale & dither — all in your browser.",
+      ogLocale: "en_US",
+      jsonLdName: "Xteink Wallpaper Maker",
+      jsonLdDescription:
+        "Free online tool to create 24-bit BMP wallpapers for Xteink X4 and X3 e-readers with crop, resize, and device preview.",
       heading: "Xteink wallpapers",
       introPrefix: "Exports",
       introSuffix: "24-bit BMP. Everything runs in your browser.",
@@ -129,7 +142,18 @@
       fallbackFilename: "wallpaper",
     },
     ru: {
-      documentTitle: "Генератор обоев Xteink",
+      documentTitle: "Генератор обоев Xteink — BMP для X4 и X3 бесплатно",
+      metaDescription:
+        "Бесплатный онлайн-генератор обоев для Xteink X4 и X3. Обрезка, масштаб, экспорт 24-bit BMP (480×800, 528×792). Работает в браузере — без загрузки на сервер.",
+      metaKeywords:
+        "обои Xteink, обои Xteink X4, обои Xteink X3, генератор обоев, BMP обои, электронная книга обои, 480x800, 528x792",
+      ogTitle: "Генератор обоев Xteink — BMP для X4 и X3",
+      ogDescription:
+        "Создавайте обои 24-bit BMP для Xteink X4 и X3: предпросмотр на рамке устройства, обрезка, оттенки серого и дизеринг — всё в браузере.",
+      ogLocale: "ru_RU",
+      jsonLdName: "Генератор обоев Xteink",
+      jsonLdDescription:
+        "Бесплатный онлайн-инструмент для создания 24-bit BMP обоев для электронных книг Xteink X4 и X3 с обрезкой, масштабом и предпросмотром.",
       heading: "Обои для Xteink",
       introPrefix: "Экспорт",
       introSuffix: "24-битный BMP. Всё работает прямо в браузере.",
@@ -254,9 +278,69 @@
     );
   }
 
+  /**
+   * @param {string} selector
+   * @param {string} content
+   */
+  function setMetaContent(selector, content) {
+    const el = document.querySelector(selector);
+    if (el) el.setAttribute("content", content);
+  }
+
+  function applySeoMeta() {
+    setMetaContent('meta[data-seo="description"]', t("metaDescription"));
+    setMetaContent('meta[data-seo="keywords"]', t("metaKeywords"));
+    setMetaContent('meta[data-seo="og:title"]', t("ogTitle"));
+    setMetaContent('meta[data-seo="og:description"]', t("ogDescription"));
+    setMetaContent('meta[data-seo="og:locale"]', t("ogLocale"));
+    setMetaContent('meta[data-seo="twitter:title"]', t("ogTitle"));
+    setMetaContent('meta[data-seo="twitter:description"]', t("ogDescription"));
+
+    const jsonLdEl = document.getElementById("seo-json-ld");
+    if (jsonLdEl) {
+      jsonLdEl.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        name: t("jsonLdName"),
+        alternateName:
+          locale === "ru"
+            ? "Xteink Wallpaper Maker"
+            : "Генератор обоев Xteink",
+        url: SITE_URL,
+        description: t("jsonLdDescription"),
+        applicationCategory: "DesignApplication",
+        operatingSystem: "Any",
+        browserRequirements: "Requires JavaScript. Requires HTML5.",
+        inLanguage: locale === "ru" ? ["ru", "en"] : ["en", "ru"],
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
+        featureList:
+          locale === "ru"
+            ? [
+                "Экспорт BMP для Xteink X4 480×800 и 800×480",
+                "Экспорт BMP для Xteink X3 528×792 и 792×528",
+                "Режимы заполнения: cover, contain, stretch",
+                "Предпросмотр E Ink и 1-bit дизеринг",
+                "Без загрузки на сервер — только в браузере",
+              ]
+            : [
+                "Xteink X4 480×800 and 800×480 BMP export",
+                "Xteink X3 528×792 and 792×528 BMP export",
+                "Cover, contain, and stretch fit modes",
+                "E Ink grayscale preview and 1-bit dither",
+                "No image upload — runs entirely in the browser",
+              ],
+      });
+    }
+  }
+
   function applyStaticCopy() {
     document.documentElement.lang = locale;
     document.title = t("documentTitle");
+    applySeoMeta();
 
     for (const el of document.querySelectorAll("[data-i18n]")) {
       const key = el.getAttribute("data-i18n");

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://xawk64.github.io/Xteinkx4x3-Wallpaper-Maker/sitemap.xml
